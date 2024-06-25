@@ -98,6 +98,7 @@ class Beam:
         self.rct.centery = bird.rct.centery 
         self.rct.left = bird.rct.right#こうかとん右座標をビーム左座標に設置
         self.vx, self.vy = +5, 0
+        
 
     def update(self, screen: pg.Surface):
         """
@@ -160,15 +161,21 @@ def main():
         if bomb is not None:
             if bird.rct.colliderect(bomb.rct):
             # ゲームオーバー時に，こうかとん画像を切り替え，1秒間表示させる
-                bird.change_img(8, screen)
+                # bird.change_img(8, screen)
+                # pg.display.update()
+                # time.sleep(1)
+                font = pg.font.Font(None, 80)
+                txt = font.render("Gameover", True, (255,0,0))
+                screen.blit(txt, [WIDTH/2-150, HEIGHT/2])
                 pg.display.update()
-                time.sleep(1)
+                time.sleep(5)
                 return
         if bomb is not None:
             if beam is not None:
                 if bomb.rct.colliderect(beam.rct):
                     bomb = None
                     beam = None
+                    bird.change_img(9,screen)
 
         key_lst = pg.key.get_pressed()
         bird.update(key_lst, screen)
